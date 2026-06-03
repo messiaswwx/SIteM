@@ -1,0 +1,98 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+<h3>📦 Meu Sistema de Estoque</h3>
+
+<div style="margin-bottom: 20px; background: #f0f0f0; padding: 15px; border-radius: 5px;">
+    <h4>Cadastrar Novo Produto</h4>
+
+    <label>Nome:</label><br />
+    <input type="text" @bind="nomeInput" /><br /><br />
+
+    <label>Quantidade:</label><br />
+    <input type="number" @bind="qtdInput" /><br /><br />
+
+    <label>Preço:</label><br />
+    <input type="number" @bind="precoInput" /><br /><br />
+
+    <button @onclick="CadastrarProduto">Cadastrar</button>
+</div>
+
+@if (!string.IsNullOrEmpty(mensagem))
+{
+    <p style="color: blue; font-weight: bold;">@mensagem</p>
+}
+
+<hr />
+
+<div style="background: #fff; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
+    <h4>📋 Produtos em Estoque</h4>
+
+    @if (totalCadastrado == 0)
+    {
+        <p style="color: gray; italic: true;">Nenhum produto cadastrado ainda.</p>
+    }
+    else
+    {
+        <ul>
+            @for (int i = 0; i < totalCadastrado; i++)
+            {
+                <li>
+                    <strong>Index @i:</strong> @nomes[i] — Qtd: @quantidades[i] — R$ @precos[i]
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    // Seus vetores originais
+    string[] nomes = new string[50];
+    int[] quantidades = new int[50];
+    double[] precos = new double[50];
+    int totalCadastrado = 0;
+
+    // Variáveis da tela
+    string nomeInput = "";
+    int qtdInput = 0;
+    double precoInput = 0;
+    string mensagem = "";
+
+    void CadastrarProduto()
+    {
+        if (totalCadastrado >= 50)
+        {
+            mensagem = "Erro: Estoque lotado!";
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(nomeInput))
+        {
+            mensagem = "Erro: Nome inválido!";
+            return;
+        }
+        if (qtdInput <= 0)
+        {
+            mensagem = "Erro: A quantidade deve ser positiva!";
+            return;
+        }
+        if (precoInput < 0)
+        {
+            mensagem = "Erro: Preço inválido!";
+            return;
+        }
+
+        // Salva nos vetores
+        nomes[totalCadastrado] = nomeInput;
+        quantidades[totalCadastrado] = qtdInput;
+        precos[totalCadastrado] = precoInput;
+
+        totalCadastrado++;
+
+        mensagem = $"Sucesso: {nomeInput} cadastrado!";
+
+        // Limpa os campos
+        nomeInput = "";
+        qtdInput = 0;
+        precoInput = 0;
+    }
+}
