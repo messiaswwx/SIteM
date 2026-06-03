@@ -1,6 +1,6 @@
 using SIteM.Components;
 using Microsoft.AspNetCore.HttpOverrides;
-
+System.IO.Directory.SetCurrentDirectory(AppContext.BaseDirectory);
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -28,7 +28,7 @@ app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages:
 app.UseHttpsRedirection();
 
 // ADICIONE ESSA LINHA AQUI ABAIXO DO HTTPS REDIRECTION:
-app.UseStaticFiles();
+app.UseStaticFiles(); 
 
 app.UseAntiforgery();
 
