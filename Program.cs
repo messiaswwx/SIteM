@@ -26,7 +26,10 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
+
+// ADICIONE ESSA LINHA AQUI ABAIXO DO HTTPS REDIRECTION:
 app.UseStaticFiles();
+
 app.UseAntiforgery();
 
 app.MapStaticAssets();
